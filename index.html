@@ -3,107 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudos Maracanaú 2026</title>
+    <title>Cronograma Maracanaú 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #004a99; --secondary: #f1f3f4; --accent: #e63946; --success: #2a9d8f; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: auto; }
-        header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; position: sticky; top: 10px; z-index: 1000; }
-        .progress-box { width: 100%; background: #ddd; border-radius: 20px; height: 15px; margin: 10px 0; overflow: hidden; }
-        #bar { width: 0%; height: 100%; background: var(--success); transition: width 0.4s; }
-        .card { background: white; margin-top: 20px; padding: 20px; border-radius: 10px; border-left: 8px solid var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        h2 { color: var(--accent); margin-top: 0; font-size: 1.2rem; }
-        .item { display: flex; align-items: center; margin: 10px 0; cursor: pointer; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        input[type="checkbox"] { transform: scale(1.3); margin-right: 15px; cursor: pointer; }
-        input:checked + span { text-decoration: line-through; color: #888; }
+        :root {
+            --primary: #1a73e8;
+            --secondary: #5f6368;
+            --success: #34a853;
+            --danger: #d93025;
+            --bg: #fdfdfd;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #202124;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Topo Fixo Profissional */
+        header {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        h1 { font-size: 22px; margin: 0; color: var(--primary); }
+
+        .progress-wrapper {
+            max-width: 600px;
+            margin: 15px auto 0;
+            padding: 0 20px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            background: #e8eaed;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            background: var(--success);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Container de Cards */
+        .container {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px 20px;
+        }
+
+        .week-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eef0f2;
+            transition: transform 0.2s;
+        }
+
+        .week-card:hover { transform: translateY(-3px); }
+
+        h2 {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--secondary);
+            margin: 0 0 15px 0;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f8f9fa;
+            cursor: pointer;
+        }
+
+        .task:last-child { border-bottom: none; }
+
+        input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #dadce0;
+            border-radius: 5px;
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            left: 4px;
+            top: -2px;
+            font-size: 14px;
+        }
+
+        .task-text { font-size: 15px; flex: 1; transition: 0.2s; }
+
+        input:checked + .task-text {
+            color: #bdc1c6;
+            text-decoration: line-through;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-bottom: 30px;
+            text-align: center;
+            color: #9aa0a6;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📚 Maracanaú 2026</h1>
-            <div id="perc">Progresso: 0%</div>
-            <div class="progress-box"><div id="bar"></div></div>
-        </header>
 
-        <div id="content">
-            <div class="card">
-                <h2>🗓️ Semana 1: Português e Base Legal</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Português: Interpretação, Tipologia e Gêneros</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Educação: LDB (9394/96) e Sistema Educacional</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Atualidades: Democracia e eventos de 8 de janeiro</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 2: Gramática e Matemática</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Português: Acentuação, Ortografia e Pontuação</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Matemática: Inteiros, Fracionários e Decimais</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Educação: Plano Nacional de Educação (PNE)</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 3: Sintaxe e Álgebra</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Português: Morfologia e Análise Sintática</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Matemática: Equações do 1º e 2º graus</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Atualidades: Mudanças Climáticas no Brasil</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 4: Coesão e Proporção</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Português: Coesão, Coerência e Paragrafação</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Matemática: Razão, Proporção e Regra de Três</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Educação: Gestão Democrática Escolar</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 5: Regência e Finanças</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Português: Concordância, Regência e Crase</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Matemática: Porcentagem e Juros Simples</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Atualidades: IA na Educação e Letramento Digital</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 6: Didática e Conjuntos</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Didática: Paulo Freire, PPP e Planejamento</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Matemática: Teoria dos Conjuntos</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Atualidades: Racismo Estrutural e LGBTQIA+</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 7: Avaliação e Realidade Regional</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Didática: Avaliação da Aprendizagem e Tecnologias</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Educação: EJA e Educação Inclusiva</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Atualidades: Ceará: Educação e Segurança Pública</span></label>
-            </div>
-
-            <div class="card">
-                <h2>🗓️ Semana 8: Revisão Final</h2>
-                <label class="item"><input type="checkbox" class="cb"><span>Português: Variações Linguísticas e Revisão</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Matemática: Sistemas de Medida</span></label>
-                <label class="item"><input type="checkbox" class="cb"><span>Atualidades: Saúde Mental e Violência Escolar</span></label>
-            </div>
+<header>
+    <h1>🎯 Guia de Aprovação Maracanaú</h1>
+    <div class="progress-wrapper">
+        <div class="progress-info">
+            <span id="stats-text">Progresso Geral</span>
+            <span id="percentage-text">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div id="progress-fill"></div>
         </div>
     </div>
+</header>
 
-    <script>
-        const cbs = document.querySelectorAll('.cb');
-        const bar = document.getElementById('bar');
-        const perc = document.getElementById('perc');
+<div class="container">
+    <div class="week-card">
+        <h2>Semana 1: Interpretação & LDB</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Português: Compreensão e Gêneros Textuais</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Educação: LDB e Organização do Ensino</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Atualidades: Defesa da Democracia e 8 de Janeiro</span></label>
+    </div>
 
-        function update() {
-            const checked = document.querySelectorAll('.cb:checked').length;
-            const total = cbs.length;
-            const p = Math.round((checked / total) * 100);
-            bar.style.width = p + '%';
-            perc.innerText = `Progresso: ${p}% (${checked} de ${total})`;
-        }
+    <div class="week-card">
+        <h2>Semana 2: Ortografia & Aritmética</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Português: Acentuação e Pontuação</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Matemática: Inteiros, Fracionários e Decimais</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Educação: Plano Nacional de Educação (PNE)</span></label>
+    </div>
 
-        cbs.forEach((c, i) => {
-            const id = 'maracanau_task_' + i;
-            c.checked = localStorage.getItem(id) === 'true';
-            c.onclick = () => { localStorage.setItem(id, c.checked); update(); };
-        });
-        update();
-    </script>
+    <div class="week-card">
+        <h2>Semana 3: Morfossintaxe & Clima</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Português: Classes de Palavras e Sintaxe</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Matemática: Equações de 1º e 2º graus</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Atualidades: Mudanças Climáticas e Eventos Extremos</span></label>
+    </div>
+
+    <div class="week-card">
+        <h2>Semana 4: Coesão & Regra de Três</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Português: Coesão, Coerência e Paragrafação</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Matemática: Razão, Proporção e Regra de Três</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Educação: Gestão Democrática Escolar</span></label>
+    </div>
+
+    <div class="week-card">
+        <h2>Semana 5: Regência & Finanças</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Português: Concordância, Regência e Crase</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Matemática: Porcentagem e Juros Simples</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Atualidades: IA na Educação e Fake News</span></label>
+    </div>
+
+    <div class="week-card">
+        <h2>Semana 6: Didática & Conjuntos</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Educação: Paulo Freire e Didática Geral</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Matemática: Teoria dos Conjuntos e Números Reais</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Atualidades: Racismo Estrutural e Direitos LGBTQIA+</span></label>
+    </div>
+
+    <div class="week-card">
+        <h2>Semana 7: Avaliação & Realidade Ceará</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Didática: Avaliação da Aprendizagem e PCNs</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Educação: EJA, Educação Indígena e Inclusiva</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Atualidades: Ceará: Polo de Educação e Segurança</span></label>
+    </div>
+
+    <div class="week-card">
+        <h2>Semana 8: Revisão & Saúde Mental</h2>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Português: Variações Linguísticas e Revisão</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Matemática: Sistemas de Medida (Tempo e Métrico)</span></label>
+        <label class="task"><input type="checkbox" class="cb"> <span class="task-text">Atualidades: Saúde Mental Pós-Pandemia e Segurança</span></label>
+    </div>
+</div>
+
+<div class="footer">
+    Site organizado para o Edital 001/2026 - Banca LABORE
+</div>
+
+<script>
+    const cbs = document.querySelectorAll('.cb');
+    const fill = document.getElementById('progress-fill');
+    const percText = document.getElementById('percentage-text');
+
+    function update() {
+        const checked = document.querySelectorAll('.cb:checked').length;
+        const total = cbs.length;
+        const p = Math.round((checked / total) * 100);
+        fill.style.width = p + '%';
+        percText.innerText = p + '%';
+    }
+
+    cbs.forEach((c, i) => {
+        const key = 'maracanau_2026_task_' + i;
+        c.checked = localStorage.getItem(key) === 'true';
+        c.onchange = () => {
+            localStorage.setItem(key, c.checked);
+            update();
+        };
+    });
+    update();
+</script>
+
 </body>
 </html>
